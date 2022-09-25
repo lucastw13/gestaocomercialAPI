@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const Ingrediente = require('./dado/ingrediente');
+const Insumo = require('./dado/insumo');
 const Produto = require('./dado/produto');
 const cors = require('cors');
 app.use(cors({
@@ -18,85 +18,77 @@ app.use(
 
     app.use(express.json())
 
-app.post('/ingrediente', async (req, res) => {
-    var ingrediente = {
+app.post('/insumo', async (req, res) => {
+    var insumo = {
         descricao: req.body.descricao,
     }
     try {
-        var ingredienteCriado = await Ingrediente.create(ingrediente);
-        res.status(201).json({ status: true, descricao: "ingrediente criado com sucesso!", ingrediente: ingredienteCriado })
+        var insumoCriado = await Insumo.create(insumo);
+        res.status(201).json({ status: true, descricao: "insumo criado com sucesso!", insumo: insumoCriado })
     } catch (error) {
         res.status(500).json({ status: false, descricao: error })
     }
 })
 
-app.put('/ingrediente', async (req, res) => {
-    var ingrediente = {
+app.put('/insumo', async (req, res) => {
+    var insumo = {
         _id : req.body._id,
         descricao: req.body.descricao,
     }
     try {
-        var ingredienteCriado = await Ingrediente.updateOne(ingrediente);
-        res.status(201).json({ status: true, descricao: "ingrediente atualizado com sucesso!", ingrediente: ingredienteCriado })
+        var insumoCriado = await Insumo.updateOne(insumo);
+        res.status(201).json({ status: true, descricao: "insumo atualizado com sucesso!", insumo: insumoCriado })
     } catch (error) {
         res.status(500).json({ status: false, descricao: error })
     }
 })
 
-app.get('/ingrediente', async (req, res) => {
+app.get('/insumo', async (req, res) => {
     try {
-        const ingrediente = await Ingrediente.find({ tipo: "ingrediente" })
-        res.status(201).json({ status: true, descricao: "busca realizada com sucesso!", ingrediente: ingrediente })
+        const insumo = await Insumo.find({ tipo: "insumo" })
+        res.status(201).json({ status: true, descricao: "busca realizada com sucesso!", insumo: insumo })
     } catch (error) {
         res.status(500).json({ status: false, descricao: error })
     }
 })
 
-app.get('/ingrediente/:codigo', async (req, res) => {
+app.get('/insumo/:codigo', async (req, res) => {
     try {
-        const ingrediente = await Ingrediente.findById(req.params.codigo)
-        if (!ingrediente) {
-            res.status(422).json({ status: false, descricao: "ingrediente não encontrado!" });
+        const insumo = await Insumo.findById(req.params.codigo)
+        if (!insumo) {
+            res.status(422).json({ status: false, descricao: "insumo não encontrado!" });
 
         }
-        res.status(201).json({ status: true, descricao: "busca realizada com sucesso!", ingrediente: ingrediente })
+        res.status(201).json({ status: true, descricao: "busca realizada com sucesso!", insumo: insumo })
     } catch (error) {
         res.status(500).json({ status: false, descricao: error })
     }
 })
-app.get('/ingrediente/:codigo/deletar', async (req, res) => {
+app.get('/insumo/:codigo/deletar', async (req, res) => {
     try {
-        const ingrediente = await Ingrediente.findByIdAndDelete(req.params.codigo)
-        /*if (!ingrediente){
-            res.status(422).json({ status:false,descricao: "ingrediente não encontrado!"});
-        
-        }*/
-        res.status(201).json({ status: true, descricao: "ingrediente deletado com sucesso!", ingrediente: ingrediente })
+        const insumo = await Insumo.findByIdAndDelete(req.params.codigo)
+        res.status(201).json({ status: true, descricao: "insumo deletado com sucesso!", insumo: insumo })
     } catch (error) {
         res.status(500).json({ status: false, descricao: error })
     }
 })
 
 
-app.delete('/ingrediente/:codigo', async (req, res) => {
+app.delete('/insumo/:codigo', async (req, res) => {
     try {
-        const ingrediente = await Ingrediente.findByIdAndDelete(req.params.codigo)
-        /*if (!ingrediente){
-            res.status(422).json({ status:false,descricao: "ingrediente não encontrado!"});
-        
-        }*/
-        res.status(201).json({ status: true, descricao: "ingrediente deletado com sucesso!", ingrediente: ingrediente })
+        const insumo = await Insumo.findByIdAndDelete(req.params.codigo)
+        res.status(201).json({ status: true, descricao: "insumo deletado com sucesso!", insumo: insumo })
     } catch (error) {
         res.status(500).json({ status: false, descricao: error })
     }
 })
 
 app.post('/produto', async (req, res) => {
-    var ingrediente = []
-    if (req.body.ingrediente != undefined) {
-        if (req.body.ingrediente.length > 0) {
-            for (var item of req.body.ingrediente) {
-                ingrediente.push(item)
+    var insumo = []
+    if (req.body.insumo != undefined) {
+        if (req.body.insumo.length > 0) {
+            for (var item of req.body.insumo) {
+                insumo.push(item)
             }
 
         }
@@ -104,7 +96,7 @@ app.post('/produto', async (req, res) => {
     }
     var produto = {
         descricao: req.body.descricao,
-        ingrediente: ingrediente
+        insumo: insumo
     }
     try {
         var produtoCriado = await Produto.create(produto);
