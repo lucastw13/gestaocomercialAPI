@@ -4,7 +4,7 @@
   "description": "",
   "main": "gestaocomercial.js",
   "scripts": {
-    "start": "nodemon ./gestaocomercial.js localhost 3001"
+    "start": "nodemon ./servico/gestaocomercial.js localhost 3001"
   },
   "keywords": [],
   "author": "",

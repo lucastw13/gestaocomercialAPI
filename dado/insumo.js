@@ -1,8 +1,10 @@
 const mongoose = require('mongoose')
 
 const insumo = mongoose.model('insumo',{
-    codigo:Number,
     descricao:String,
+    unidadeMedida:String,
+    quantidade:Number,
+    quantidadeMinima:Number,
 });
 
 module.exports = insumo
