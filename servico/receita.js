@@ -1,9 +1,10 @@
 const Dado = require('../dado/receita');
+const DadoInsumo = require('../dado/insumo');
 class receita {
   constructor() {
 
   }
-  static async get(_id) {
+  static async get(_id, entidade) {
     var jsonRetorno = { status: 500, json: {} };
     try {
       if (_id == "" || _id == undefined) {
@@ -16,11 +17,31 @@ class receita {
           jsonRetorno.status = 200
           jsonRetorno.json = { status: false, descricao: "receita não encontrado!" }
         } else {
-          jsonRetorno.status = 200
-          jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", item: item }
+          if (entidade!="" && entidade!=undefined) {
+            if (entidade == "insumo") {
+              var lista = []
+              for (var itemInsumoTemp of item.insumo) {
+                var itemInsumo = JSON.parse(JSON.stringify(await DadoInsumo.findById(itemInsumoTemp._id)))
+                itemInsumo.quantidadeReceita = itemInsumoTemp.quantidade
+                console.log(itemInsumo)
+                lista.push(itemInsumo)
+                jsonRetorno.status = 200
+              }
+              console.log(lista)
+              jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", lista: lista }
+
+            } else {
+              jsonRetorno.status = 200
+              jsonRetorno.json = { status: false, descricao: "receita não encontrado!" }
+            }
+
+          } else {
+            jsonRetorno.status = 200
+            jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", item: item }
+          }
         }
       }
-      
+
     } catch (error) {
       jsonRetorno.status = 500
       jsonRetorno.json = { status: false, descricao: error }
@@ -42,7 +63,6 @@ class receita {
   static async post(body) {
     var jsonRetorno = { status: 500, json: {} };
     var item = body
-    console.log(item)
     try {
       var itemCriado = await Dado.create(item);
       jsonRetorno.status = 201
@@ -57,7 +77,7 @@ class receita {
     var jsonRetorno = { status: 500, json: {} };
     var item = body
     try {
-      var itemAtualizado = await Dado.findByIdAndUpdate(item._id,item);
+      var itemAtualizado = await Dado.findByIdAndUpdate(item._id, item);
       jsonRetorno.status = 200
       jsonRetorno.json = { status: true, descricao: "receita atualizado com sucesso!", item: itemAtualizado }
     } catch (error) {

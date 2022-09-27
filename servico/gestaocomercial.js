@@ -46,6 +46,15 @@ app.get('/:entidade/:codigo', async (req, res) => {
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })
 
+app.get('/:entidade/:codigo/:entidade2', async (req, res) => {
+    var jsonRetorno = {status:500,json:{}};
+    switch(req.params.entidade){
+        //case "insumo" : jsonRetorno = await Insumo.get(req.params.codigo); break;
+        case "receita" : jsonRetorno = await Receita.get(req.params.codigo,req.params.entidade2); break;
+    }
+    res.status(jsonRetorno.status).json(jsonRetorno.json)
+})
+
 app.delete('/:entidade/:codigo', async (req, res) => {
     var jsonRetorno = {status:500,json:{}};
     switch(req.params.entidade){
