@@ -37,7 +37,7 @@ class receita {
 
           } else {
             jsonRetorno.status = 200
-            jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!!", item: item }
+            jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", item: item }
           }
         }
       }
