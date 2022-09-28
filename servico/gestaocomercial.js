@@ -81,7 +81,9 @@ app.get('/', (req, res) => {
 mongoose.connect('mongodb+srv://lucas:123@cluster0.dziy0r6.mongodb.net/?retryWrites=true&w=majority')
     .then(() => {
         console.log("conectado!!!!!!!!!!")
-        app.listen(3001)
+        app.listen(3001, () => {
+
+        });
 
     })
     .catch((err) => {
