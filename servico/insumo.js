@@ -1,8 +1,5 @@
 const Dado = require('../dado/insumo');
 class insumo {
-  constructor() {
-
-  }
   static async get(_id) {
     var jsonRetorno = { status: 500, json: {} };
     try {

@@ -1,9 +1,6 @@
 const Dado = require('../dado/receita');
 const DadoInsumo = require('../dado/insumo');
 class receita {
-  constructor() {
-
-  }
   static async get(_id, entidade) {
     var jsonRetorno = { status: 500, json: {} };
     try {
@@ -23,11 +20,9 @@ class receita {
               for (var itemInsumoTemp of item.insumo) {
                 var itemInsumo = JSON.parse(JSON.stringify(await DadoInsumo.findById(itemInsumoTemp._id)))
                 itemInsumo.quantidadeReceita = itemInsumoTemp.quantidade
-                console.log(itemInsumo)
                 lista.push(itemInsumo)
                 jsonRetorno.status = 200
               }
-              console.log(lista)
               jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", lista: lista }
 
             } else {
@@ -66,7 +61,7 @@ class receita {
     try {
       var itemCriado = await Dado.create(item);
       jsonRetorno.status = 201
-      jsonRetorno.json = { status: true, descricao: "insumo criado com sucesso!", item: itemCriado }
+      jsonRetorno.json = { status: true, descricao: "receita criado com sucesso!", item: itemCriado }
     } catch (error) {
       jsonRetorno.status = 500
       jsonRetorno.json = { status: false, descricao: error }

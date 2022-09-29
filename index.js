@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const Insumo = require('./servico/insumo');
 const Receita = require('./servico/receita');
+const RegistraReceita = require('./servico/registrareceita');
+const Usuario = require('./servico/Usuario');
 const cors = require('cors');
 
 app.use(cors({
@@ -42,6 +44,7 @@ app.get('/:entidade/:codigo', async (req, res) => {
     switch(req.params.entidade){
         case "insumo" : jsonRetorno = await Insumo.get(req.params.codigo); break;
         case "receita" : jsonRetorno = await Receita.get(req.params.codigo); break;
+        case "registrareceita" : jsonRetorno = await RegistraReceita.get(req.params.codigo); break;
     }
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })
@@ -69,6 +72,7 @@ app.post('/:entidade', async (req, res) => {
     switch(req.params.entidade){
         case "insumo" : jsonRetorno = await Insumo.post(req.body); break;
         case "receita" : jsonRetorno = await Receita.post(req.body); break;
+        case "usuario" : jsonRetorno = await Usuario.post(req.body); break;
     }
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })
