@@ -2,8 +2,8 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const Insumo = require('./insumo');
-const Receita = require('./receita');
+const Insumo = require('./servico/insumo');
+const Receita = require('./servico/receita');
 const cors = require('cors');
 
 app.use(cors({
@@ -81,7 +81,9 @@ app.get('/', (req, res) => {
 mongoose.connect('mongodb+srv://lucas:123@cluster0.dziy0r6.mongodb.net/?retryWrites=true&w=majority')
     .then(() => {
         console.log("conectado!!!!!!!!!!")
-        app.listen(3001)
+        app.listen(3001, () => {
+
+        });
 
     })
     .catch((err) => {
