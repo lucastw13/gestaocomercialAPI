@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const Insumo = require('./servico/insumo');
 const Receita = require('./servico/receita');
 const RegistraReceita = require('./servico/registrareceita');
-const Usuario = require('./servico/Usuario');
+const Usuario = require('./servico/usuario');
 const cors = require('cors');
 
 app.use(cors({
