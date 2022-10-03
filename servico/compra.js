@@ -1,11 +1,11 @@
 const Dado = require('../dado/compra');
 const DadoInsumo = require('../dado/insumo');
 class compra {
-  static async get(_id, entidade,pEmpresa) {
+  static async get(_id, entidade, pEmpresa) {
     var jsonRetorno = { status: 500, json: {} };
     try {
       if (_id == "" || _id == undefined) {
-        const lista = await Dado.find({empresa:pEmpresa})
+        const lista = await Dado.find({ empresa: pEmpresa })
         jsonRetorno.status = 200
         jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", lista: lista }
       } else {
@@ -14,7 +14,7 @@ class compra {
           jsonRetorno.status = 200
           jsonRetorno.json = { status: false, descricao: "compra não encontrado!" }
         } else {
-          if (entidade!="" && entidade!=undefined) {
+          if (entidade != "" && entidade != undefined) {
             if (entidade == "insumo") {
               var lista = []
               for (var itemInsumoTemp of item.insumo) {
@@ -62,6 +62,12 @@ class compra {
       var itemCriado = await Dado.create(item);
       jsonRetorno.status = 201
       jsonRetorno.json = { status: true, descricao: "compra criado com sucesso!", item: itemCriado }
+      for (itemCompraInsumo of itemCriado.insumo) {
+        const itemInsumo = await Dado.findById(itemCompraInsumo._id)
+        itemInsumo.quantidade = itemInsumo.quantidade + itemCompraInsumo.quantidade
+        await Dado.findByIdAndUpdate(itemInsumo._id, itemInsumo);
+      }
+      //TODO - Adicionar quantidade nos insumos
     } catch (error) {
       jsonRetorno.status = 500
       jsonRetorno.json = { status: false, descricao: error }

@@ -15,6 +15,12 @@ class registrarreceita {
                 insumo: item.insumo
             })
 
+            for (itemReceitaInsumo of item.insumo) {
+                const itemInsumo = await Dado.findById(itemReceitaInsumo._id)
+                itemInsumo.quantidade = itemInsumo.quantidade - itemReceitaInsumo.quantidade
+                await Dado.findByIdAndUpdate(itemInsumo._id, itemInsumo);
+            }
+
             var itemAtualizado = await Dado.findByIdAndUpdate(item._id, item)
             jsonRetorno.status = 201
             jsonRetorno.json = { status: true, descricao: "receita atualizada com sucesso!", item: itemAtualizado }
