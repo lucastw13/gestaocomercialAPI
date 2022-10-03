@@ -1,17 +1,18 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema;
-const SchemaProduto = new Schema({
+
+const SchemaCompra = ({
     descricao: {
         type: String
     },
-    ingrediente: {
-        type: [SchemaInsumo]
-    },
-    receita: {
-        type: String
-    },
-    produto: {
-        type: [SchemaProduto]
+    insumo: {
+        type: [{
+            _id: {
+                type: String
+            },
+            quantidade: {
+                type: Number
+            }
+        }]
     },
     data: {
         type: String
@@ -37,15 +38,5 @@ const SchemaProduto = new Schema({
 
 });
 
-const SchemaInsumo = ({
-    _id: {
-        type: String
-    },
-    quantidade: {
-        type: number
-    },
-});
-
-
-const produto = mongoose.model('produto', SchemaProduto);
-module.exports = produto
+const compra = mongoose.model('compra', SchemaCompra);
+module.exports = compra

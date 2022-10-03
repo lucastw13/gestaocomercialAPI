@@ -1,18 +1,17 @@
 const Dado = require('../dado/receita');
-class receita {
-    static async get(_id) {
+class registrarreceita {
+    static async post(body) {
         var jsonRetorno = { status: 500, json: {} };
         try {
-            var item = await Dado.findById(_id)
+            var item = await Dado.findById(body.receita)
             if (item.registro == "" || item.registro == undefined) {
                 item.registro = []
             }
-            var dateTime = new Date()
 
             item.registro.push({
-                data: dateTime.toLocaleDateString(),
-                hora: dateTime.toLocaleTimeString(),
-                usuario: "lucas",
+                data: body.data,
+                hora: body.hora,
+                usuario: body.usuario,
                 insumo: item.insumo
             })
 
@@ -28,4 +27,4 @@ class receita {
 
 }
 
-module.exports = receita;
+module.exports = registrarreceita;

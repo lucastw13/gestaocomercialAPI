@@ -36,7 +36,28 @@ const SchemaReceita = ({
                 }]
             }
         }]
-    }
+    },
+    data: {
+        type: String
+    },
+    hora: {
+        type: String
+    },
+    usuario: {
+        type: String
+    },
+    dataAlteracao: {
+        type: String
+    },
+    horaAlteracao: {
+        type: String
+    },
+    usuarioAlteracao: {
+        type: String
+    },
+    empresa: {
+        type: String
+    },
 });
 
 const receita = mongoose.model('receita', SchemaReceita);

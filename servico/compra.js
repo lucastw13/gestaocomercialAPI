@@ -1,6 +1,6 @@
-const Dado = require('../dado/receita');
+const Dado = require('../dado/compra');
 const DadoInsumo = require('../dado/insumo');
-class receita {
+class compra {
   static async get(_id, entidade,pEmpresa) {
     var jsonRetorno = { status: 500, json: {} };
     try {
@@ -12,14 +12,14 @@ class receita {
         const item = await Dado.findById(_id)
         if (item == "" || item == undefined) {
           jsonRetorno.status = 200
-          jsonRetorno.json = { status: false, descricao: "receita não encontrado!" }
+          jsonRetorno.json = { status: false, descricao: "compra não encontrado!" }
         } else {
           if (entidade!="" && entidade!=undefined) {
             if (entidade == "insumo") {
               var lista = []
               for (var itemInsumoTemp of item.insumo) {
                 var itemInsumo = JSON.parse(JSON.stringify(await DadoInsumo.findById(itemInsumoTemp._id)))
-                itemInsumo.quantidadeReceita = itemInsumoTemp.quantidade
+                itemInsumo.quantidadeCompra = itemInsumoTemp.quantidade
                 lista.push(itemInsumo)
                 jsonRetorno.status = 200
               }
@@ -27,7 +27,7 @@ class receita {
 
             } else {
               jsonRetorno.status = 200
-              jsonRetorno.json = { status: false, descricao: "receita não encontrado!" }
+              jsonRetorno.json = { status: false, descricao: "Compra não encontrado!" }
             }
 
           } else {
@@ -48,7 +48,7 @@ class receita {
     try {
       const item = await Dado.findByIdAndDelete(_id)
       jsonRetorno.status = 200
-      jsonRetorno.json = { status: true, descricao: "receita deletado com sucesso!", item: item }
+      jsonRetorno.json = { status: true, descricao: "compra deletado com sucesso!", item: item }
     } catch (error) {
       jsonRetorno.status = 500
       jsonRetorno.json = { status: false, descricao: error }
@@ -61,7 +61,7 @@ class receita {
     try {
       var itemCriado = await Dado.create(item);
       jsonRetorno.status = 201
-      jsonRetorno.json = { status: true, descricao: "receita criado com sucesso!", item: itemCriado }
+      jsonRetorno.json = { status: true, descricao: "compra criado com sucesso!", item: itemCriado }
     } catch (error) {
       jsonRetorno.status = 500
       jsonRetorno.json = { status: false, descricao: error }
@@ -74,7 +74,7 @@ class receita {
     try {
       var itemAtualizado = await Dado.findByIdAndUpdate(item._id, item);
       jsonRetorno.status = 200
-      jsonRetorno.json = { status: true, descricao: "receita atualizado com sucesso!", item: itemAtualizado }
+      jsonRetorno.json = { status: true, descricao: "compra atualizado com sucesso!", item: itemAtualizado }
     } catch (error) {
       jsonRetorno.status = 500
       jsonRetorno.json = { status: false, descricao: error }
@@ -84,4 +84,4 @@ class receita {
 
 }
 
-module.exports = receita;
+module.exports = compra;

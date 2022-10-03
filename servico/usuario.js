@@ -3,10 +3,10 @@ class usuario {
   static async post(body) {
     var jsonRetorno = { status: 500, json: {} };
     try {
-      const item = await Dado.findById(body._id)
+      const item = await Dado.findOne({nome:body.nome})
       if (item.senha == body.senha) {
         jsonRetorno.status = 200
-        jsonRetorno.json = { status: true, descricao: "usuário autenticado com sucesso!" }
+        jsonRetorno.json = { status: true, descricao: "usuário autenticado com sucesso!",item}
 
       } else {
         jsonRetorno.status = 200

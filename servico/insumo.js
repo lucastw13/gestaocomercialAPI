@@ -1,10 +1,10 @@
 const Dado = require('../dado/insumo');
 class insumo {
-  static async get(_id) {
+  static async get(_id,entidade,pEmpresa) {
     var jsonRetorno = { status: 500, json: {} };
     try {
       if (_id == "" || _id == undefined) {
-        const lista = await Dado.find()
+        const lista = await Dado.find({empresa:pEmpresa})
         jsonRetorno.status = 200
         jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", lista: lista }
       } else {
