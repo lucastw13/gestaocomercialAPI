@@ -14,8 +14,8 @@ class usuario {
 
       }
     } catch (error) {
-      jsonRetorno.status = 500
-      jsonRetorno.json = { status: false, descricao: error }
+      jsonRetorno.status = 200
+      jsonRetorno.json = { status: false, descricao: error.toString() }
     }
     return jsonRetorno
   }

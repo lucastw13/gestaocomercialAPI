@@ -8,6 +8,7 @@ const RegistraReceita = require('./servico/registrareceita');
 const Usuario = require('./servico/usuario');
 const Compra = require('./servico/compra');
 const cors = require('cors');
+require('dotenv').config()
 
 app.use(cors({
     origin: '*',
@@ -93,8 +94,9 @@ app.get('/', (req, res) => {
 
 mongoose.connect('mongodb+srv://lucas:123@cluster0.dziy0r6.mongodb.net/?retryWrites=true&w=majority')
     .then(() => {
-        console.log("conectado!!!!!!!!!!")
+        
         app.listen(process.env.PORT, () => {
+            console.log("conectado!!!!!!!!!!: "+process.env.PORT)
         });
 
     })

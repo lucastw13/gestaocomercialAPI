@@ -19,8 +19,8 @@ class insumo {
       }
       
     } catch (error) {
-      jsonRetorno.status = 500
-      jsonRetorno.json = { status: false, descricao: error }
+      jsonRetorno.status = 200
+      jsonRetorno.json = { status: false, descricao: error.toString() }
     }
     return jsonRetorno
   }
@@ -31,8 +31,8 @@ class insumo {
       jsonRetorno.status = 200
       jsonRetorno.json = { status: true, descricao: "insumo deletado com sucesso!", item: item }
     } catch (error) {
-      jsonRetorno.status = 500
-      jsonRetorno.json = { status: false, descricao: error }
+      jsonRetorno.status = 200
+      jsonRetorno.json = { status: false, descricao: error.toString() }
     }
     return jsonRetorno
   }
@@ -44,8 +44,8 @@ class insumo {
       jsonRetorno.status = 201
       jsonRetorno.json = { status: true, descricao: "insumo criado com sucesso!", item: itemCriado }
     } catch (error) {
-      jsonRetorno.status = 500
-      jsonRetorno.json = { status: false, descricao: error }
+      jsonRetorno.status = 200
+      jsonRetorno.json = { status: false, descricao: error.toString() }
     }
     return jsonRetorno
   }
@@ -57,8 +57,8 @@ class insumo {
       jsonRetorno.status = 200
       jsonRetorno.json = { status: true, descricao: "insumo atualizado com sucesso!", item: itemAtualizado }
     } catch (error) {
-      jsonRetorno.status = 500
-      jsonRetorno.json = { status: false, descricao: error }
+      jsonRetorno.status = 200
+      jsonRetorno.json = { status: false, descricao: error.toString() }
     }
     return jsonRetorno
   }

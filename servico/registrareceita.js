@@ -1,4 +1,5 @@
 const Dado = require('../dado/receita');
+const DadoInsumo = require('../dado/insumo');
 class registrarreceita {
     static async post(body) {
         var jsonRetorno = { status: 500, json: {} };
@@ -15,18 +16,18 @@ class registrarreceita {
                 insumo: item.insumo
             })
 
-            for (itemReceitaInsumo of item.insumo) {
-                const itemInsumo = await Dado.findById(itemReceitaInsumo._id)
+            for (var itemReceitaInsumo of item.insumo) {
+                const itemInsumo = await DadoInsumo.findById(itemReceitaInsumo._id)
                 itemInsumo.quantidade = itemInsumo.quantidade - itemReceitaInsumo.quantidade
-                await Dado.findByIdAndUpdate(itemInsumo._id, itemInsumo);
+                await DadoInsumo.findByIdAndUpdate(itemInsumo._id, itemInsumo);
             }
 
             var itemAtualizado = await Dado.findByIdAndUpdate(item._id, item)
             jsonRetorno.status = 201
             jsonRetorno.json = { status: true, descricao: "receita atualizada com sucesso!", item: itemAtualizado }
         } catch (error) {
-            jsonRetorno.status = 500
-            jsonRetorno.json = { status: false, descricao: error }
+            jsonRetorno.status = 200
+            jsonRetorno.json = { status: false, descricao: error.toString() }
         }
         return jsonRetorno
     }

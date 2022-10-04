@@ -38,8 +38,8 @@ class compra {
       }
 
     } catch (error) {
-      jsonRetorno.status = 500
-      jsonRetorno.json = { status: false, descricao: error }
+      jsonRetorno.status = 200
+      jsonRetorno.json = { status: false, descricao: error.toString() }
     }
     return jsonRetorno
   }
@@ -50,8 +50,8 @@ class compra {
       jsonRetorno.status = 200
       jsonRetorno.json = { status: true, descricao: "compra deletado com sucesso!", item: item }
     } catch (error) {
-      jsonRetorno.status = 500
-      jsonRetorno.json = { status: false, descricao: error }
+      jsonRetorno.status = 200
+      jsonRetorno.json = { status: false, descricao: error.toString() }
     }
     return jsonRetorno
   }
@@ -62,15 +62,16 @@ class compra {
       var itemCriado = await Dado.create(item);
       jsonRetorno.status = 201
       jsonRetorno.json = { status: true, descricao: "compra criado com sucesso!", item: itemCriado }
-      for (itemCompraInsumo of itemCriado.insumo) {
-        const itemInsumo = await Dado.findById(itemCompraInsumo._id)
+
+      for (var itemCompraInsumo of itemCriado.insumo) {
+        const itemInsumo = await DadoInsumo.findById(itemCompraInsumo._id)
         itemInsumo.quantidade = itemInsumo.quantidade + itemCompraInsumo.quantidade
-        await Dado.findByIdAndUpdate(itemInsumo._id, itemInsumo);
+       await DadoInsumo.findByIdAndUpdate(itemInsumo._id, itemInsumo);
       }
-      //TODO - Adicionar quantidade nos insumos
+      
     } catch (error) {
-      jsonRetorno.status = 500
-      jsonRetorno.json = { status: false, descricao: error }
+      jsonRetorno.status = 200
+      jsonRetorno.json = { status: false, descricao: error.toString() }
     }
     return jsonRetorno
   }
@@ -82,8 +83,8 @@ class compra {
       jsonRetorno.status = 200
       jsonRetorno.json = { status: true, descricao: "compra atualizado com sucesso!", item: itemAtualizado }
     } catch (error) {
-      jsonRetorno.status = 500
-      jsonRetorno.json = { status: false, descricao: error }
+      jsonRetorno.status = 200
+      jsonRetorno.json = { status: false, descricao: error.toString() }
     }
     return jsonRetorno
   }
