@@ -4,6 +4,9 @@ const SchemaReceita = ({
     descricao: {
         type: String
     },
+    modoPreparo: {
+        type: String
+    },
     insumo: {
         type: [{
             _id: {

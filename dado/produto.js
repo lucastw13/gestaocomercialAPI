@@ -4,14 +4,30 @@ const SchemaProduto = new Schema({
     descricao: {
         type: String
     },
-    ingrediente: {
-        type: [SchemaInsumo]
+    insumo: {
+        type: [{
+            _id: {
+                type: String
+            },
+            quantidade: {
+                type: Number
+            },
+        }]
     },
     receita: {
         type: String
     },
+    quantidade:{
+        type:String
+    },
+    unidadeMedida:{
+        type:String
+    },
     produto: {
-        type: [SchemaProduto]
+        type: [{
+            _id:String,
+            quantidade:Number,
+        }]
     },
     data: {
         type: String
@@ -35,15 +51,6 @@ const SchemaProduto = new Schema({
         type: String
     },
 
-});
-
-const SchemaInsumo = ({
-    _id: {
-        type: String
-    },
-    quantidade: {
-        type: number
-    },
 });
 
 

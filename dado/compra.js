@@ -11,7 +11,10 @@ const SchemaCompra = ({
             },
             quantidade: {
                 type: Number
-            }
+            },
+            valor:{
+                type:Number
+            },
         }]
     },
     data: {

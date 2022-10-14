@@ -12,6 +12,7 @@ const insumo = mongoose.model('insumo',{
     dataAlteracao:String,
     horaAlteracao:String,
     empresa:String,
+    valor:Number,
 });
 
 module.exports = insumo
