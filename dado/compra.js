@@ -26,6 +26,9 @@ const SchemaCompra = ({
     usuario: {
         type: String
     },
+    usuarioNome: {
+        type: String
+    },
     dataAlteracao: {
         type: String
     },

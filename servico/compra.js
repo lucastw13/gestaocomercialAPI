@@ -1,15 +1,23 @@
 const Dado = require('../dado/compra');
 const DadoInsumo = require('../dado/insumo');
+const DadoUsuario = require('../dado/usuario');
 class compra {
   static async get(_id, entidade, pEmpresa) {
     var jsonRetorno = { status: 500, json: {} };
     try {
       if (_id == "" || _id == undefined) {
-        const lista = await Dado.find({ empresa: pEmpresa })
+        var lista = JSON.parse(JSON.stringify(await Dado.find({ empresa: pEmpresa })))
+        var listaTemp = []
+        for (var itemTemp of lista) {
+          var itemUsuario = JSON.parse(JSON.stringify(await DadoUsuario.findById(itemTemp.usuario)))
+          itemTemp.usuarioNome = itemUsuario.nome
+          listaTemp.push(itemTemp)
+        }
+        lista = listaTemp
         jsonRetorno.status = 200
         jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", lista: lista }
       } else {
-        const item = await Dado.findById(_id)
+        const item = JSON.parse(JSON.stringify(await Dado.findById(_id)))
         if (item == "" || item == undefined) {
           jsonRetorno.status = 200
           jsonRetorno.json = { status: false, descricao: "compra não encontrado!" }
