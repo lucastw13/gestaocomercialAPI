@@ -35,7 +35,7 @@ class receita {
             var listaRegistroTemp = []
             for (var itemRegistroTemp of item.registro) {
               var itemUsuario = JSON.parse(JSON.stringify(await DadoUsuario.findById(itemRegistroTemp.usuario)))
-              itemRegistroTemp.usuario = itemUsuario.nome
+              itemRegistroTemp.usuarioNome = itemUsuario.nome
               listaRegistroTemp.push(itemRegistroTemp)
             }
             item.registro = listaRegistroTemp
