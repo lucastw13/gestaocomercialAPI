@@ -2,11 +2,11 @@ const Dado = require('../dado/receita');
 const DadoInsumo = require('../dado/insumo');
 const DadoUsuario = require('../dado/usuario');
 class receita {
-  static async get(_id, entidade,pEmpresa) {
+  static async get(_id, entidade, pEmpresa) {
     var jsonRetorno = { status: 500, json: {} };
     try {
       if (_id == "" || _id == undefined) {
-        const lista = await Dado.find({empresa:pEmpresa})
+        const lista = JSON.parse(JSON.stringify(await Dado.find({ empresa: pEmpresa })))
         jsonRetorno.status = 200
         jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", lista: lista }
       } else {
@@ -15,7 +15,7 @@ class receita {
           jsonRetorno.status = 200
           jsonRetorno.json = { status: false, descricao: "receita não encontrado!" }
         } else {
-          if (entidade!="" && entidade!=undefined) {
+          if (entidade != "" && entidade != undefined) {
             if (entidade == "insumo") {
               var lista = []
               for (var itemInsumoTemp of item.insumo) {
@@ -32,8 +32,13 @@ class receita {
             }
 
           } else {
-            var itemUsuario = await DadoUsuario.findById(item.usuario)
-            item.usuario = itemUsuario.nome
+            var listaRegistroTemp = []
+            for (var itemRegistroTemp of item.registro) {
+              var itemUsuario = JSON.parse(JSON.stringify(await DadoUsuario.findById(itemRegistroTemp.usuario)))
+              itemRegistroTemp.usuario = itemUsuario.nome
+              listaRegistroTemp.push(itemRegistroTemp)
+            }
+            item.registro = listaRegistroTemp
             jsonRetorno.status = 200
             jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", item: item }
           }
