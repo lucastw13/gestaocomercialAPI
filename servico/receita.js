@@ -1,5 +1,6 @@
 const Dado = require('../dado/receita');
 const DadoInsumo = require('../dado/insumo');
+const DadoUsuario = require('../dado/usuario');
 class receita {
   static async get(_id, entidade,pEmpresa) {
     var jsonRetorno = { status: 500, json: {} };
@@ -31,6 +32,8 @@ class receita {
             }
 
           } else {
+            var itemUsuario = await DadoUsuario.findById(item.usuario)
+            item.usuario = itemUsuario.nome
             jsonRetorno.status = 200
             jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", item: item }
           }
