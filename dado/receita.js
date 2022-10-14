@@ -28,6 +28,9 @@ const SchemaReceita = ({
             usuario: {
                 type: String
             },
+            usuarioNome: {
+                type: String
+            },
             insumo: {
                 type: [{
                     _id: {
