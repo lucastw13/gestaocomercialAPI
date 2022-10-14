@@ -26,6 +26,24 @@ class usuario {
     return jsonRetorno
   }
 
+  static async get(_id) {
+    var jsonRetorno = { status: 500, json: {} };
+    try {
+      const item = await Dado.findById(_id)
+      if (item == "" || item == undefined) {
+        jsonRetorno.status = 200
+        jsonRetorno.json = { status: false, descricao: "usuario não encontrado!" }
+      } else {
+        jsonRetorno.status = 200
+        jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", item: item }
+      }
+    } catch (error) {
+      jsonRetorno.status = 200
+      jsonRetorno.json = { status: false, descricao: error.toString() }
+    }
+    return jsonRetorno
+  }
+
 
 }
 
