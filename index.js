@@ -71,6 +71,12 @@ app.get('/:entidade/:codigo/:entidade2/:empresa', async (req, res) => {
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })
 
+app.get('/produto/:codigo/:entidade2/:empresa/:eSubProduto', async (req, res) => {
+    var jsonRetorno = {status:500,json:{}}
+    jsonRetorno = await Produto.get("","",req.params.empresa,req.params.eSubProduto);
+    res.status(jsonRetorno.status).json(jsonRetorno.json)
+})
+
 app.delete('/:entidade/:codigo', async (req, res) => {
     var jsonRetorno = {status:500,json:{}};
     switch(req.params.entidade){

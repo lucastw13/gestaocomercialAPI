@@ -50,7 +50,12 @@ const SchemaProduto = new Schema({
     empresa: {
         type: String
     },
-
+    valorVenda:{
+        type: Number
+    },
+    eSubProduto:{
+        type: Boolean
+    }
 });
 
 
