@@ -8,6 +8,8 @@ const RegistraReceita = require('./servico/registrareceita');
 const Usuario = require('./servico/usuario');
 const Compra = require('./servico/compra');
 const Produto = require('./servico/produto');
+const Pedido = require('./servico/pedido');
+const Cliente = require('./servico/cliente');
 const cors = require('cors');
 require('dotenv').config()
 
@@ -31,6 +33,8 @@ app.put('/:entidade', async (req, res) => {
         case "receita" : jsonRetorno = await Receita.put(req.body); break;
         case "compra" : jsonRetorno = await Compra.put(req.body); break;
         case "produto" : jsonRetorno = await Produto.put(req.body); break;
+        case "pedido" : jsonRetorno = await Pedido.put(req.body); break;
+        case "cliente" : jsonRetorno = await Cliente.put(req.body); break;
     }
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })
@@ -45,6 +49,8 @@ app.get('/:entidade/:codigo', async (req, res) => {
         case "compra" : jsonRetorno = await Compra.get(req.params.codigo); break;
         case "produto" : jsonRetorno = await Produto.get(req.params.codigo); break;
         case "usuario" : jsonRetorno = await Usuario.get(req.params.codigo); break;
+        case "pedido" : jsonRetorno = await Pedido.get(req.params.codigo); break;
+        case "cliente" : jsonRetorno = await Cliente.get(req.params.codigo); break;
     }
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })
@@ -67,6 +73,8 @@ app.get('/:entidade/:codigo/:entidade2/:empresa', async (req, res) => {
         case "receita" : jsonRetorno = await Receita.get("","",req.params.empresa); break;
         case "compra" : jsonRetorno = await Compra.get("","",req.params.empresa); break;
         case "produto" : jsonRetorno = await Produto.get("","",req.params.empresa); break;
+        case "pedido" : jsonRetorno = await Pedido.get("","",req.params.empresa); break;
+        case "cliente" : jsonRetorno = await Cliente.get("","",req.params.empresa); break;
     }
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })
@@ -84,6 +92,8 @@ app.delete('/:entidade/:codigo', async (req, res) => {
         case "receita" : jsonRetorno = await Receita.delete(req.params.codigo); break;
         case "compra" : jsonRetorno = await Compra.delete(req.params.codigo); break;
         case "produto" : jsonRetorno = await Produto.delete(req.params.codigo); break;
+        case "pedido" : jsonRetorno = await Pedido.delete(req.params.codigo); break;
+        case "cliente" : jsonRetorno = await Pedido.delete(req.params.codigo); break;
     }
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })
@@ -97,6 +107,8 @@ app.post('/:entidade', async (req, res) => {
         case "compra" : jsonRetorno = await Compra.post(req.body); break;
         case "registrareceita" : jsonRetorno = await RegistraReceita.post(req.body); break;
         case "produto" : jsonRetorno = await Produto.post(req.body); break;
+        case "pedido" : jsonRetorno = await Pedido.post(req.body); break;
+        case "cliente" : jsonRetorno = await Cliente.post(req.body); break;
     }
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })

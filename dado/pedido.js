@@ -1,24 +1,18 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 const SchemaPedido = new Schema({
-    quantidade:{
-        type:String
-    },
-    unidadeMedida:{
-        type:String
-    },
-    pedidoItem: {
+    produto: {
         type: [{
-            sequencial:{
-                type:Number
-            },
-            produto:{
+            _id:{
                 type:String
             },
             quantidade:{
                 type:Number,
             }
         }]
+    },
+    cliente: {
+        type: String
     },
     data: {
         type: String
@@ -41,14 +35,8 @@ const SchemaPedido = new Schema({
     empresa: {
         type: String
     },
-    valorVenda:{
-        type: Number
-    },
-    eSubProduto:{
-        type: Boolean
-    }
 });
 
 
-const produto = mongoose.model('produto', SchemaProduto);
-module.exports = produto
+const pedido = mongoose.model('pedido', SchemaPedido);
+module.exports = pedido
