@@ -2,11 +2,17 @@ const Dado = require('../dado/produto');
 const DadoInsumo = require('../dado/insumo');
 const DadoReceita = require('../dado/receita');
 class produto {
-  static async get(_id, entidade, pEmpresa,peSubProduto) {
+  static async get(_id, entidade, pEmpresa, peSubProduto) {
     var jsonRetorno = { status: 500, json: {} };
     try {
       if (_id == "" || _id == undefined) {
-        const lista = await Dado.find({ empresa: pEmpresa ,eSubProduto:peSubProduto})
+        var lista = []
+        if (peSubProduto != "" && peSubProduto != undefined) {
+          lista = await Dado.find({ empresa: pEmpresa, eSubProduto: peSubProduto })
+        } else {
+          lista = await Dado.find({ empresa: pEmpresa })
+        }
+
         jsonRetorno.status = 200
         jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", lista: lista }
       } else {
@@ -44,17 +50,29 @@ class produto {
 
           } else {
             item.valorCalculado = 0
-            for (var itemTemp of item.insumo) {
-              var itemInsumo = JSON.parse(JSON.stringify(await DadoInsumo.findById(itemTemp._id)))
-              if (itemInsumo.valor != "" && itemInsumo.valor != undefined) {
-                item.valorCalculado = item.valorCalculado + itemInsumo.valor * itemTemp.quantidade
+            if (item.eSubProduto) {
+              for (var itemTemp of item.insumo) {
+                var itemInsumo = JSON.parse(JSON.stringify(await DadoInsumo.findById(itemTemp._id)))
+                if (itemInsumo.valor != "" && itemInsumo.valor != undefined) {
+                  item.valorCalculado = item.valorCalculado + itemInsumo.valor * itemTemp.quantidade
 
+                }
               }
-            }
-            for (var itemTemp of item.produto) {
-              var itemProduto = JSON.parse(JSON.stringify(await Dado.findById(itemTemp._id)))
-              if (itemProduto.receita != "" && itemProduto.receita != undefined) {
-                var itemReceita = JSON.parse(JSON.stringify(await DadoReceita.findById(itemProduto.receita)))
+              for (var itemTemp of item.produto) {
+                var itemProduto = JSON.parse(JSON.stringify(await Dado.findById(itemTemp._id)))
+                if (itemProduto.receita != "" && itemProduto.receita != undefined) {
+                  var itemReceita = JSON.parse(JSON.stringify(await DadoReceita.findById(itemProduto.receita)))
+                  for (var itemTemp of itemReceita.insumo) {
+                    var itemInsumo = JSON.parse(JSON.stringify(await DadoInsumo.findById(itemTemp._id)))
+                    if (itemInsumo.valor != "" && itemInsumo.valor != undefined) {
+                      item.valorCalculado = item.valorCalculado + itemInsumo.valor * itemTemp.quantidade
+                    }
+                  }
+                }
+              }
+            } else {
+              if (item.receita != "" && item.receita != undefined) {
+                var itemReceita = JSON.parse(JSON.stringify(await DadoReceita.findById(item.receita)))
                 for (var itemTemp of itemReceita.insumo) {
                   var itemInsumo = JSON.parse(JSON.stringify(await DadoInsumo.findById(itemTemp._id)))
                   if (itemInsumo.valor != "" && itemInsumo.valor != undefined) {
@@ -63,17 +81,6 @@ class produto {
                 }
               }
             }
-
-            if (item.receita != "" && item.receita != undefined) {
-              var itemReceita = JSON.parse(JSON.stringify(await DadoReceita.findById(item.receita)))
-              for (var itemTemp of itemReceita.insumo) {
-                var itemInsumo = JSON.parse(JSON.stringify(await DadoInsumo.findById(itemTemp._id)))
-                if (itemInsumo.valor != "" && itemInsumo.valor != undefined) {
-                  item.valorCalculado = item.valorCalculado + itemInsumo.valor * itemTemp.quantidade
-                }
-              }
-            }
-
             item.valorCalculado = parseFloat(item.valorCalculado.toFixed(2))
 
             jsonRetorno.status = 200

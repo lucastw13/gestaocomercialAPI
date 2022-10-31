@@ -1,36 +1,23 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
-const SchemaProduto = new Schema({
-    descricao: {
-        type: String
-    },
-    insumo: {
-        type: [{
-            _id: {
-                type: String
-            },
-            quantidade: {
-                type: Number
-            },
-        }]
-    },
-    receita: {
-        type: String
-    },
+const SchemaPedido = new Schema({
     quantidade:{
         type:String
     },
     unidadeMedida:{
         type:String
     },
-    produto: {
+    pedidoItem: {
         type: [{
-            _id:{
-                type: String,
+            sequencial:{
+                type:Number
+            },
+            produto:{
+                type:String
             },
             quantidade:{
                 type:Number,
-            },
+            }
         }]
     },
     data: {
