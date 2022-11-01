@@ -1,5 +1,6 @@
 const Dado = require('../dado/pedido');
 const DadoProduto = require('../dado/produto');
+const DadoCliente = require('../dado/cliente');
 class pedido {
   static async get(_id, entidade, pEmpresa) {
     var jsonRetorno = { status: 500, json: {} };
@@ -8,8 +9,8 @@ class pedido {
         var lista = JSON.parse(JSON.stringify(await Dado.find({ empresa: pEmpresa })))
         var listaTemp = []
         for (var itemTemp of lista) {
-          var itemUsuario = JSON.parse(JSON.stringify(await DadoUsuario.findById(itemTemp.usuario)))
-          itemTemp.usuarioNome = itemUsuario.nome
+          var itemCliente = JSON.parse(JSON.stringify(await DadoCliente.findById(itemTemp.cliente)))
+          itemTemp.clienteNome = itemCliente.nome
           listaTemp.push(itemTemp)
         }
         lista = listaTemp
@@ -25,7 +26,7 @@ class pedido {
             if (entidade == "produto") {
               var lista = []
               for (var itemProdutoTemp of item.produto) {
-                var itemProduto = JSON.parse(JSON.stringify(await DadoProduto.findById(itemProdutoTemp.produto)))
+                var itemProduto = JSON.parse(JSON.stringify(await DadoProduto.findById(itemProdutoTemp._id)))
                 itemProduto.quantidadePedido = itemProdutoTemp.quantidade
                 lista.push(itemProduto)
                 jsonRetorno.status = 200

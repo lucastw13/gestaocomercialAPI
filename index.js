@@ -62,6 +62,7 @@ app.get('/:entidade/:codigo/:entidade2', async (req, res) => {
         case "receita" : jsonRetorno = await Receita.get(req.params.codigo,req.params.entidade2); break;
         case "compra" : jsonRetorno = await Compra.get(req.params.codigo,req.params.entidade2); break;
         case "produto" : jsonRetorno = await Produto.get(req.params.codigo,req.params.entidade2); break;
+        case "pedido" : jsonRetorno = await Pedido.get(req.params.codigo,req.params.entidade2); break;
     }
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })
