@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const Insumo = require('./servico/insumo');
+const Insumodepara = require('./servico/insumodepara');
 const Receita = require('./servico/receita');
 const RegistraReceita = require('./servico/registrareceita');
 const Usuario = require('./servico/usuario');
@@ -10,6 +11,7 @@ const Compra = require('./servico/compra');
 const Produto = require('./servico/produto');
 const Pedido = require('./servico/pedido');
 const Cliente = require('./servico/cliente');
+const NotaFiscal = require('./servico/notafiscal');
 const cors = require('cors');
 require('dotenv').config()
 
@@ -30,6 +32,7 @@ app.put('/:entidade', async (req, res) => {
     var jsonRetorno = {status:500,json:{}};
     switch(req.params.entidade){
         case "insumo" : jsonRetorno = await Insumo.put(req.body); break;
+        case "insumodepara" : jsonRetorno = await Insumodepara.put(req.body); break;
         case "receita" : jsonRetorno = await Receita.put(req.body); break;
         case "compra" : jsonRetorno = await Compra.put(req.body); break;
         case "produto" : jsonRetorno = await Produto.put(req.body); break;
@@ -45,12 +48,14 @@ app.get('/:entidade/:codigo', async (req, res) => {
     var jsonRetorno = {status:500,json:{}};
     switch(req.params.entidade){
         case "insumo" : jsonRetorno = await Insumo.get(req.params.codigo); break;
+        case "insumodepara" : jsonRetorno = await Insumodepara.get(req.params.codigo); break;
         case "receita" : jsonRetorno = await Receita.get(req.params.codigo); break;
         case "compra" : jsonRetorno = await Compra.get(req.params.codigo); break;
         case "produto" : jsonRetorno = await Produto.get(req.params.codigo); break;
         case "usuario" : jsonRetorno = await Usuario.get(req.params.codigo); break;
         case "pedido" : jsonRetorno = await Pedido.get(req.params.codigo); break;
         case "cliente" : jsonRetorno = await Cliente.get(req.params.codigo); break;
+        case "notafiscal" : jsonRetorno = await NotaFiscal.get(req.params.codigo); break;
     }
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })
@@ -71,12 +76,19 @@ app.get('/:entidade/:codigo/:entidade2/:empresa', async (req, res) => {
     var jsonRetorno = {status:500,json:{}}
     switch(req.params.entidade){
         case "insumo" : jsonRetorno = await Insumo.get("","",req.params.empresa); break;
+        case "insumodepara" : jsonRetorno = await Insumodepara.get("","",req.params.empresa); break;
         case "receita" : jsonRetorno = await Receita.get("","",req.params.empresa); break;
         case "compra" : jsonRetorno = await Compra.get("","",req.params.empresa); break;
         case "produto" : jsonRetorno = await Produto.get("","",req.params.empresa); break;
         case "pedido" : jsonRetorno = await Pedido.get("","",req.params.empresa); break;
         case "cliente" : jsonRetorno = await Cliente.get("","",req.params.empresa); break;
     }
+    res.status(jsonRetorno.status).json(jsonRetorno.json)
+})
+
+app.get('/insumodepara/:codigo/:entidade2/:empresa/:insumo', async (req, res) => {
+    var jsonRetorno = {status:500,json:{}}
+    jsonRetorno = await Insumodepara.get("","",req.params.empresa,req.params.insumo);
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })
 
@@ -90,6 +102,7 @@ app.delete('/:entidade/:codigo', async (req, res) => {
     var jsonRetorno = {status:500,json:{}};
     switch(req.params.entidade){
         case "insumo" : jsonRetorno = await Insumo.delete(req.params.codigo); break;
+        case "insumodepara" : jsonRetorno = await Insumodepara.delete(req.params.codigo); break;
         case "receita" : jsonRetorno = await Receita.delete(req.params.codigo); break;
         case "compra" : jsonRetorno = await Compra.delete(req.params.codigo); break;
         case "produto" : jsonRetorno = await Produto.delete(req.params.codigo); break;
@@ -103,6 +116,7 @@ app.post('/:entidade', async (req, res) => {
     var jsonRetorno = {status:500,json:{}};
     switch(req.params.entidade){
         case "insumo" : jsonRetorno = await Insumo.post(req.body); break;
+        case "insumodepara" : jsonRetorno = await Insumodepara.post(req.body); break;
         case "receita" : jsonRetorno = await Receita.post(req.body); break;
         case "usuario" : jsonRetorno = await Usuario.post(req.body); break;
         case "compra" : jsonRetorno = await Compra.post(req.body); break;
@@ -113,7 +127,6 @@ app.post('/:entidade', async (req, res) => {
     }
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })
-
 
 app.get('/', (req, res) => {
     res.json({ teste: "Olá Mundo!" })
