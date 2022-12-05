@@ -86,9 +86,9 @@ app.get('/:entidade/:codigo/:entidade2/:empresa', async (req, res) => {
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })
 
-app.get('/insumodepara/:codigo/:entidade2/:empresa/:insumo', async (req, res) => {
+app.get('/insumodepara/:codigo/:entidade2/:empresa/:cnpj/:codigo', async (req, res) => {
     var jsonRetorno = {status:500,json:{}}
-    jsonRetorno = await Insumodepara.get("","",req.params.empresa,req.params.insumo);
+    jsonRetorno = await Insumodepara.get("","",req.params.empresa,req.params.cnpj,req.params.codigo);
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })
 

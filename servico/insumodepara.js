@@ -1,17 +1,22 @@
 const Dado = require('../dado/insumodepara');
 class insumodepara {
-  static async get(_id, entidade, pEmpresa, pInsumo) {
+  static async get(_id, entidade, pEmpresa, pCnpj,pCodigo) {
     var jsonRetorno = { status: 500, json: {} };
     try {
       if (_id == "" || _id == undefined) {
-        if (pInsumo == "" || pInsumo == undefined) {
+        if (pCnpj == "" || pCnpj == undefined || pCodigo == "" || pCodigo == undefined) {
           const lista = await Dado.find({ empresa: pEmpresa })
           jsonRetorno.status = 200
           jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", lista: lista }
         } else {
-          const lista = await Dado.find({ empresa: pEmpresa, insumo: pInsumo })
+          const item = await Dado.findOne({ empresa: pEmpresa,cnpj:pCnpj, codigo: pCodigo })
+          if (item == "" || item == undefined) {
+            jsonRetorno.json = { status: false, descricao: "insumo não encontrado!" }
+          }else{
+            jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", item: item }
+          }
           jsonRetorno.status = 200
-          jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", lista: lista }
+          
         }
       } else {
         const item = await Dado.findById(_id)
@@ -44,11 +49,21 @@ class insumodepara {
   }
   static async post(body) {
     var jsonRetorno = { status: 500, json: {} };
-    var item = body
     try {
-      var itemCriado = await Dado.create(item);
-      jsonRetorno.status = 201
-      jsonRetorno.json = { status: true, descricao: "insumo de para criado com sucesso!", item: itemCriado }
+      if (body instanceof Array) {
+        var lista = []
+        for (var item of body) {
+          var itemCriado = await Dado.create(item);
+          lista.push(itemCriado)
+        }
+        jsonRetorno.status = 201
+        jsonRetorno.json = { status: true, descricao: "insumo de/para criado com sucesso!", lista: lista }
+      } else {
+        item = body
+        var itemCriado = await Dado.create(item);
+        jsonRetorno.status = 201
+        jsonRetorno.json = { status: true, descricao: "insumo de/para criado com sucesso!", item: item }
+      }
     } catch (error) {
       jsonRetorno.status = 200
       jsonRetorno.json = { status: false, descricao: error.toString() }

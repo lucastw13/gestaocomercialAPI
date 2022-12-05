@@ -23,22 +23,21 @@ class notafiscal {
             for (var item of response.data.nfeProc.NFe.infNFe.det) {
               lista.push(
                 {
-                  produto: {
-                    descricao     : item.prod.xProd,
-                    codigo        : item.prod.cProd,
-                    quantidade    : item.prod.qTrib,
-                    unidadeMedida : item.prod.uTrib,
-                    valorUnitario : item.prod.vUnTrib,
-                    valor         : item.prod.vProd
-                  }
+                  descricao: item.prod.xProd,
+                  codigo: item.prod.cProd,
+                  quantidade: item.prod.qTrib,
+                  unidadeMedida: item.prod.uTrib,
+                  valorUnitario: item.prod.vUnTrib,
+                  valor: item.prod.vProd
                 }
+
               )
             }
 
             retorno.lista = lista
 
 
-            jsonRetorno.json = { descricao: "consulta realizada com sucesso", status: true, notafiscal: retorno }
+            jsonRetorno.json = { descricao: "consulta realizada com sucesso", status: true, cnpj:response.data.nfeProc.NFe.infNFe.emit.CNPJ,lista:lista}
           } else {
             jsonRetorno.json = { descricao: "nota não existe", status: false }
 
