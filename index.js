@@ -92,6 +92,12 @@ app.get('/insumodepara/:codigo/:entidade2/:empresa/:cnpj/:codigo', async (req, r
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })
 
+app.get('/notafiscal/:chave/:entidade2/:empresa/notafiscal', async (req, res) => {
+    var jsonRetorno = {status:500,json:{}}
+    jsonRetorno = await NotaFiscal.get(req.params.chave,req.params.entidade2,req.params.empresa);
+    res.status(jsonRetorno.status).json(jsonRetorno.json)
+})
+
 app.get('/produto/:codigo/:entidade2/:empresa/:eSubProduto', async (req, res) => {
     var jsonRetorno = {status:500,json:{}}
     jsonRetorno = await Produto.get("","",req.params.empresa,req.params.eSubProduto);
