@@ -11,6 +11,11 @@ class compra {
         for (var itemTemp of lista) {
           var itemUsuario = JSON.parse(JSON.stringify(await DadoUsuario.findById(itemTemp.usuario)))
           itemTemp.usuarioNome = itemUsuario.nome
+          var total = 0
+          for(var itemInsumo of itemTemp.insumo){
+            total = total + itemInsumo.valor
+          }
+          itemTemp.total = total
           listaTemp.push(itemTemp)
         }
         lista = listaTemp
@@ -28,6 +33,7 @@ class compra {
               for (var itemInsumoTemp of item.insumo) {
                 var itemInsumo = JSON.parse(JSON.stringify(await DadoInsumo.findById(itemInsumoTemp._id)))
                 itemInsumo.quantidadeCompra = itemInsumoTemp.quantidade
+                itemInsumo.valorCompra = itemInsumoTemp.valor
                 lista.push(itemInsumo)
                 jsonRetorno.status = 200
               }

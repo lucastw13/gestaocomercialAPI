@@ -1,6 +1,7 @@
 
 const axios = require('axios');
-const Dado = require('../dado/insumodepara');
+const DadoInsumoDePara = require('../dado/insumodepara');
+const DadoInsumo = require('../dado/insumo');
 class notafiscal {
   static async get(chave, entidade2, empresa) {
     try {
@@ -36,12 +37,15 @@ class notafiscal {
 
                 )
               } else if (entidade2 == "insumo") {
-                var itemInsumoDePara = await Dado.findOne({ empresa: empresa, cnpj: response.data.nfeProc.NFe.infNFe.emit.CNPJ, codigo: item.prod.cProd })
+                var itemInsumoDePara = await DadoInsumoDePara.findOne({ empresa: empresa, cnpj: response.data.nfeProc.NFe.infNFe.emit.CNPJ, codigo: item.prod.cProd })
                 if (itemInsumoDePara != "" && itemInsumoDePara != undefined) {
+                  var itemInsumo = await DadoInsumo.findById(itemInsumoDePara.insumo)
                   lista.push(
                     {
                       insumo: itemInsumoDePara.insumo,
+                      insumoDescricao: itemInsumo.descricao,
                       quantidade: item.prod.qTrib,
+                      valor: item.prod.vProd,
                     }
                   )
                   jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", lista: lista }

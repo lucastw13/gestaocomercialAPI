@@ -1,20 +1,10 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
-const SchemaPedido = new Schema({
-    produto: {
-        type: [{
-            _id:{
-                type:String
-            },
-            quantidade:{
-                type:Number,
-            }
-        }]
+const SchemaParametro= new Schema({
+    chave: {
+        type: String
     },
-    numero: {
-        type: Number
-    },
-    cliente: {
+    valor: {
         type: String
     },
     data: {
@@ -41,5 +31,5 @@ const SchemaPedido = new Schema({
 });
 
 
-const pedido = mongoose.model('pedido', SchemaPedido);
-module.exports = pedido
+const parametro = mongoose.model('Parametro', SchemaParametro);
+module.exports = parametro

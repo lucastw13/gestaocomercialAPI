@@ -12,6 +12,7 @@ const Produto = require('./servico/produto');
 const Pedido = require('./servico/pedido');
 const Cliente = require('./servico/cliente');
 const NotaFiscal = require('./servico/notafiscal');
+const Parametro = require('./servico/parametro');
 const cors = require('cors');
 require('dotenv').config()
 
@@ -38,6 +39,7 @@ app.put('/:entidade', async (req, res) => {
         case "produto" : jsonRetorno = await Produto.put(req.body); break;
         case "pedido" : jsonRetorno = await Pedido.put(req.body); break;
         case "cliente" : jsonRetorno = await Cliente.put(req.body); break;
+        case "parametro" : jsonRetorno = await Parametro.put(req.body); break;
     }
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })
@@ -56,6 +58,7 @@ app.get('/:entidade/:codigo', async (req, res) => {
         case "pedido" : jsonRetorno = await Pedido.get(req.params.codigo); break;
         case "cliente" : jsonRetorno = await Cliente.get(req.params.codigo); break;
         case "notafiscal" : jsonRetorno = await NotaFiscal.get(req.params.codigo); break;
+        case "parametro" : jsonRetorno = await Parametro.get(req.params.codigo); break;
     }
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })
@@ -82,6 +85,7 @@ app.get('/:entidade/:codigo/:entidade2/:empresa', async (req, res) => {
         case "produto" : jsonRetorno = await Produto.get("","",req.params.empresa); break;
         case "pedido" : jsonRetorno = await Pedido.get("","",req.params.empresa); break;
         case "cliente" : jsonRetorno = await Cliente.get("","",req.params.empresa); break;
+        case "parametro" : jsonRetorno = await Parametro.get("","",req.params.empresa); break;
     }
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })
@@ -114,6 +118,7 @@ app.delete('/:entidade/:codigo', async (req, res) => {
         case "produto" : jsonRetorno = await Produto.delete(req.params.codigo); break;
         case "pedido" : jsonRetorno = await Pedido.delete(req.params.codigo); break;
         case "cliente" : jsonRetorno = await Pedido.delete(req.params.codigo); break;
+        case "parametro" : jsonRetorno = await Parametro.delete(req.params.codigo); break;
     }
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })
@@ -130,6 +135,7 @@ app.post('/:entidade', async (req, res) => {
         case "produto" : jsonRetorno = await Produto.post(req.body); break;
         case "pedido" : jsonRetorno = await Pedido.post(req.body); break;
         case "cliente" : jsonRetorno = await Cliente.post(req.body); break;
+        case "parametro" : jsonRetorno = await Parametro.post(req.body); break;
     }
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })

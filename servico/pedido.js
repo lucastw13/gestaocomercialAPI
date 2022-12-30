@@ -1,6 +1,7 @@
 const Dado = require('../dado/pedido');
 const DadoProduto = require('../dado/produto');
 const DadoCliente = require('../dado/cliente');
+const DadoParametro = require('../dado/parametro');
 class pedido {
   static async get(_id, entidade, pEmpresa) {
     var jsonRetorno = { status: 500, json: {} };
@@ -67,6 +68,11 @@ class pedido {
     var jsonRetorno = { status: 500, json: {} };
     var item = body
     try {
+      var itemParametro = JSON.parse(JSON.stringify(await DadoParametro.findOne({empresa:item.empresa,chave:"ultimoNumeroPedido"})))
+      itemParametro.valor = Number(itemParametro.valor) + 1
+      await DadoParametro.findByIdAndUpdate(itemParametro._id, itemParametro);
+      item = JSON.parse(JSON.stringify(item))
+      item.numero = itemParametro.valor
       var itemCriado = await Dado.create(item);
       jsonRetorno.status = 201
       jsonRetorno.json = { status: true, descricao: "pedido criado com sucesso!", item: itemCriado }
