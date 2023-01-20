@@ -1,5 +1,5 @@
-const Dado = require('../dado/insumo');
-class insumo {
+const Dado = require('../dado/parametro');
+class parametro {
   static async get(_id,entidade,pEmpresa) {
     var jsonRetorno = { status: 500, json: {} };
     try {
@@ -11,7 +11,7 @@ class insumo {
         const item = await Dado.findById(_id)
         if (item == "" || item == undefined) {
           jsonRetorno.status = 200
-          jsonRetorno.json = { status: false, descricao: "insumo não encontrado!" }
+          jsonRetorno.json = { status: false, descricao: "parametro não encontrado!" }
         } else {
           jsonRetorno.status = 200
           jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", item: item }
@@ -29,7 +29,7 @@ class insumo {
     try {
       const item = await Dado.findByIdAndDelete(_id)
       jsonRetorno.status = 200
-      jsonRetorno.json = { status: true, descricao: "insumo deletado com sucesso!", item: item }
+      jsonRetorno.json = { status: true, descricao: "parametro deletado com sucesso!", item: item }
     } catch (error) {
       jsonRetorno.status = 200
       jsonRetorno.json = { status: false, descricao: error.toString() }
@@ -42,7 +42,7 @@ class insumo {
     try {
       var itemCriado = await Dado.create(item);
       jsonRetorno.status = 201
-      jsonRetorno.json = { status: true, descricao: "insumo criado com sucesso!", item: itemCriado }
+      jsonRetorno.json = { status: true, descricao: "parametro criado com sucesso!", item: itemCriado }
     } catch (error) {
       jsonRetorno.status = 200
       jsonRetorno.json = { status: false, descricao: error.toString() }
@@ -55,7 +55,7 @@ class insumo {
     try {
       var itemAtualizado = await Dado.findByIdAndUpdate(item._id,item);
       jsonRetorno.status = 200
-      jsonRetorno.json = { status: true, descricao: "insumo atualizado com sucesso!", item: itemAtualizado }
+      jsonRetorno.json = { status: true, descricao: "parametro atualizado com sucesso!", item: itemAtualizado }
     } catch (error) {
       jsonRetorno.status = 200
       jsonRetorno.json = { status: false, descricao: error.toString() }
@@ -65,4 +65,4 @@ class insumo {
 
 }
 
-module.exports = insumo;
+module.exports = parametro;

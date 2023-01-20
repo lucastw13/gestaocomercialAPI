@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema;
-const SchemaProduto = new Schema({
+
+const SchemaCompra = ({
     descricao: {
         type: String
     },
@@ -12,24 +12,8 @@ const SchemaProduto = new Schema({
             quantidade: {
                 type: Number
             },
-        }]
-    },
-    receita: {
-        type: String
-    },
-    quantidade:{
-        type:String
-    },
-    unidadeMedida:{
-        type:String
-    },
-    produto: {
-        type: [{
-            _id:{
-                type: String,
-            },
-            quantidade:{
-                type:Number,
+            valor:{
+                type:Number
             },
         }]
     },
@@ -40,6 +24,9 @@ const SchemaProduto = new Schema({
         type: String
     },
     usuario: {
+        type: String
+    },
+    usuarioNome: {
         type: String
     },
     dataAlteracao: {
@@ -54,14 +41,8 @@ const SchemaProduto = new Schema({
     empresa: {
         type: String
     },
-    valorVenda:{
-        type: Number
-    },
-    eSubProduto:{
-        type: Boolean
-    }
+
 });
 
-
-const produto = mongoose.model('produto', SchemaProduto);
-module.exports = produto
+const compra = mongoose.model('compra', SchemaCompra);
+module.exports = compra
