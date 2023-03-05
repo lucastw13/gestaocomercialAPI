@@ -6,7 +6,7 @@ class notafiscal {
   static async get(chave, entidade2, empresa) {
     try {
       var jsonRetorno = { status: 500, json: {} };
-      var token = "06aef429-a981-3ec5-a1f8-71d38d86481e"
+      var token = process.env.TOKEN_CONSULTA_NOTA
       var config = {
         headers: {
           Accept: "application/json",
@@ -14,7 +14,8 @@ class notafiscal {
         }
       }
       jsonRetorno.status = 200
-      var url = "https://gateway.apiserpro.serpro.gov.br/consulta-nfe-df-trial/api/v1/nfe/" + chave
+      //var url = "https://gateway.apiserpro.serpro.gov.br/consulta-nfe-df-trial/api/v1/nfe/" + chave
+      var url = process.env.URL_CONSULTA_NOTA + chave
       await axios.get(url, config)
         .then(async response => {
           if (response.data != null) {
@@ -24,7 +25,7 @@ class notafiscal {
             for (var item of response.data.nfeProc.NFe.infNFe.det) {
               if ((entidade2 == "" || entidade2 == undefined) && (empresa == "" || empresa == undefined)) {
                 
-                jsonRetorno.json = { descricao: "consulta realizada com sucesso", status: true, empresa:{cnpj: response.data.nfeProc.NFe.infNFe.emit.CNPJ,nome:response.data.nfeProc.NFe.infNFe.emit.xFant}, lista: lista }
+                jsonRetorno.json = { descricao: "consulta realizada com sucesso", status: true, fornecedor:{cnpj: response.data.nfeProc.NFe.infNFe.emit.CNPJ,nome:response.data.nfeProc.NFe.infNFe.emit.xFant}, lista: lista }
                 lista.push(
                   {
                     descricao: item.prod.xProd,
@@ -37,7 +38,7 @@ class notafiscal {
 
                 )
               } else if (entidade2 == "insumo") {
-                var itemInsumoDePara = await DadoInsumoDePara.findOne({ empresa: empresa, empresa:{cnpj: response.data.nfeProc.NFe.infNFe.emit.CNPJ,nome:response.data.nfeProc.NFe.infNFe.emit.xFant}, codigo: item.prod.cProd })
+                var itemInsumoDePara = await DadoInsumoDePara.findOne({ fornecedor:{cnpj: response.data.nfeProc.NFe.infNFe.emit.CNPJ}, codigo: item.prod.cProd })
                 if (itemInsumoDePara != "" && itemInsumoDePara != undefined) {
                   var itemInsumo = await DadoInsumo.findById(itemInsumoDePara.insumo)
                   lista.push(

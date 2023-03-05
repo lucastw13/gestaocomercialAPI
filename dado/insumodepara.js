@@ -4,9 +4,15 @@ const insumodepara = mongoose.model('insumodepara',{
     cnpj:String,
     codigo:String,
     insumo:String,
-    empresa:{
-        cnpj:String,
-        nome:String
+    fornecedor: {
+        type: {
+            cnpj: {
+                type: String
+            },
+            nome: {
+                type: String
+            },
+        }
     },
     usuario:String,
     data:String,

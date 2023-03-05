@@ -11,7 +11,6 @@ const insumo = mongoose.model('insumo',{
     usuarioAlteracao:String,
     dataAlteracao:String,
     horaAlteracao:String,
-    empresa:String,
     valor:Number,
 });
 

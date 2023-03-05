@@ -13,6 +13,7 @@ const Pedido = require('./servico/pedido');
 const Cliente = require('./servico/cliente');
 const NotaFiscal = require('./servico/notafiscal');
 const Parametro = require('./servico/parametro');
+const Empresa = require('./servico/empresa');
 const cors = require('cors');
 require('dotenv').config()
 
@@ -45,6 +46,13 @@ app.put('/:entidade', async (req, res) => {
 })
 
 
+app.get('/:entidade', async (req, res) => {
+    var jsonRetorno = {status:500,json:{}};
+    switch(req.params.entidade){
+        case "empresa" : jsonRetorno = await Empresa.get(); break;
+    }
+    res.status(jsonRetorno.status).json(jsonRetorno.json)
+})
 
 app.get('/:entidade/:codigo', async (req, res) => {
     var jsonRetorno = {status:500,json:{}};

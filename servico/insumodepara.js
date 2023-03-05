@@ -1,15 +1,23 @@
 const Dado = require('../dado/insumodepara');
+const DadoInsumo = require('../dado/insumo');
 class insumodepara {
   static async get(_id, entidade, pEmpresa, pCnpj,pCodigo) {
     var jsonRetorno = { status: 500, json: {} };
     try {
       if (_id == "" || _id == undefined) {
         if (pCnpj == "" || pCnpj == undefined || pCodigo == "" || pCodigo == undefined) {
-          const lista = await Dado.find({ empresa: pEmpresa })
+          var lista = JSON.parse(JSON.stringify(await Dado.find()))
+          var listaTemp = []
+          for(var item of lista){
+            var itemInsumo = await DadoInsumo.findById(item.insumo)
+            item.insumoDescricao = itemInsumo.descricao
+            listaTemp.push(item)
+          }
+          lista = listaTemp
           jsonRetorno.status = 200
           jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", lista: lista }
         } else {
-          const item = await Dado.findOne({ empresa: pEmpresa,cnpj:pCnpj, codigo: pCodigo })
+          const item = await Dado.findOne({ fornecedor:{cnpj:pCnpj}, codigo: pCodigo })
           if (item == "" || item == undefined) {
             jsonRetorno.json = { status: false, descricao: "insumo não encontrado!" }
           }else{

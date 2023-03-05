@@ -3,7 +3,7 @@ class usuario {
   static async post(body) {
     var jsonRetorno = { status: 500, json: {} };
     try {
-      const item = await Dado.findOne({ nome: body.nome })
+      const item = await Dado.findOne({ nome: body.nome, empresa:body.empresa})
       if (item != "" && item != undefined) {
         if (item.senha == body.senha) {
           jsonRetorno.status = 200
