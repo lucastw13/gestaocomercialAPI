@@ -1,5 +1,6 @@
 const Dado = require('../dado/receita');
 const DadoInsumo = require('../dado/insumo');
+const DadoEstoque = require('../dado/estoque');
 class registrarreceita {
     static async post(body) {
         var jsonRetorno = { status: 500, json: {} };
@@ -17,9 +18,13 @@ class registrarreceita {
             })
 
             for (var itemReceitaInsumo of item.insumo) {
-                const itemInsumo = await DadoInsumo.findById(itemReceitaInsumo._id)
+                /*const itemInsumo = await DadoInsumo.findById(itemReceitaInsumo._id)
                 itemInsumo.quantidade = itemInsumo.quantidade - itemReceitaInsumo.quantidade
-                await DadoInsumo.findByIdAndUpdate(itemInsumo._id, itemInsumo);
+                await DadoInsumo.findByIdAndUpdate(itemInsumo._id, itemInsumo);*/
+
+                var itemEstoque = await DadoEstoque.findOne({ empresa: item.empresa, tipo: "insumo", codigo: itemReceitaInsumo._id })
+                itemEstoque.quantidade = itemEstoque.quantidade - itemReceitaInsumo.quantidade
+                await DadoEstoque.findByIdAndUpdate(itemEstoque._id, itemEstoque);
             }
 
             var itemAtualizado = await Dado.findByIdAndUpdate(item._id, item)

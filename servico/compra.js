@@ -1,5 +1,6 @@
 const Dado = require('../dado/compra');
 const DadoInsumo = require('../dado/insumo');
+const DadoEstoque = require('../dado/estoque');
 const DadoUsuario = require('../dado/usuario');
 class compra {
   static async get(_id, entidade, pEmpresa) {
@@ -12,7 +13,7 @@ class compra {
           var itemUsuario = JSON.parse(JSON.stringify(await DadoUsuario.findById(itemTemp.usuario)))
           itemTemp.usuarioNome = itemUsuario.nome
           var total = 0
-          for(var itemInsumo of itemTemp.insumo){
+          for (var itemInsumo of itemTemp.insumo) {
             total = total + itemInsumo.valor
           }
           itemTemp.total = total
@@ -78,12 +79,16 @@ class compra {
       jsonRetorno.json = { status: true, descricao: "compra criado com sucesso!", item: itemCriado }
 
       for (var itemCompraInsumo of itemCriado.insumo) {
-        const itemInsumo = await DadoInsumo.findById(itemCompraInsumo._id)
-        itemInsumo.quantidade = itemInsumo.quantidade + itemCompraInsumo.quantidade
-        itemInsumo.valor = itemCompraInsumo.valor/itemCompraInsumo.quantidade
-       await DadoInsumo.findByIdAndUpdate(itemInsumo._id, itemInsumo);
+        /*var itemInsumo = await DadoInsumo.findById(itemCompraInsumo._id)
+        itemInsumo.valor = itemCompraInsumo.valor / itemCompraInsumo.quantidade
+        await DadoInsumo.findByIdAndUpdate(itemInsumo._id, itemInsumo);*/
+
+        var itemEstoque = await DadoEstoque.findOne({ empresa: item.empresa, tipo: "insumo", codigo: itemCompraInsumo._id })
+        itemEstoque.quantidade = itemEstoque.quantidade + itemCompraInsumo.quantidade
+        itemEstoque.valor = itemCompraInsumo.valor / itemCompraInsumo.quantidade
+        await DadoEstoque.findByIdAndUpdate(itemEstoque._id, itemEstoque);
       }
-      
+
     } catch (error) {
       jsonRetorno.status = 200
       jsonRetorno.json = { status: false, descricao: error.toString() }

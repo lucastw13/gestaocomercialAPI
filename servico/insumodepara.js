@@ -11,13 +11,14 @@ class insumodepara {
           for(var item of lista){
             var itemInsumo = await DadoInsumo.findById(item.insumo)
             item.insumoDescricao = itemInsumo.descricao
+            item.insumoUnidadeMedida = itemInsumo.unidadeMedida
             listaTemp.push(item)
           }
           lista = listaTemp
           jsonRetorno.status = 200
           jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", lista: lista }
         } else {
-          const item = await Dado.findOne({ fornecedor:{cnpj:pCnpj}, codigo: pCodigo })
+          const item = await Dado.findOne({fornecedorCnpj:pCnpj, codigo: pCodigo })
           if (item == "" || item == undefined) {
             jsonRetorno.json = { status: false, descricao: "insumo não encontrado!" }
           }else{

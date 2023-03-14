@@ -1,18 +1,30 @@
 const Dado = require('../dado/insumo');
+const DadoEstoque = require('../dado/estoque');
 class insumo {
   static async get(_id,entidade,pEmpresa) {
     var jsonRetorno = { status: 500, json: {} };
     try {
-      if (_id == "" || _id == undefined) {
-        const lista = await Dado.find({empresa:pEmpresa})
+      if ((_id == "codigo")||(_id == "") || (_id == undefined)) {
+        var lista = JSON.parse(JSON.stringify(await Dado.find()))
+        var listaTemp = []
+        for(var item of lista){
+          var itemEstoque = await DadoEstoque.findOne({empresa:pEmpresa,tipo:"insumo",codigo:item._id})
+          item.quantidade = itemEstoque.quantidade
+          item.valor = itemEstoque.valor
+          listaTemp.push(item)
+        }
+        lista = listaTemp
         jsonRetorno.status = 200
         jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", lista: lista }
       } else {
-        const item = await Dado.findById(_id)
+        const item = JSON.parse(JSON.stringify(await Dado.findById(_id)))
         if (item == "" || item == undefined) {
           jsonRetorno.status = 200
           jsonRetorno.json = { status: false, descricao: "insumo não encontrado!" }
         } else {
+          var itemEstoque = await DadoEstoque.findOne({empresa:pEmpresa,tipo:"insumo",codigo:item._id})
+          item.quantidade = itemEstoque.quantidade
+          item.valor = itemEstoque.valor
           jsonRetorno.status = 200
           jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", item: item }
         }
@@ -41,6 +53,7 @@ class insumo {
     var item = body
     try {
       var itemCriado = await Dado.create(item);
+      await DadoEstoque.create({empresa:item.empresa,tipo:"insumo",codigo:itemCriado._id,quantidade:0,valor:0});
       jsonRetorno.status = 201
       jsonRetorno.json = { status: true, descricao: "insumo criado com sucesso!", item: itemCriado }
     } catch (error) {

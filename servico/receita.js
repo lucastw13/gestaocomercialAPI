@@ -6,7 +6,20 @@ class receita {
     var jsonRetorno = { status: 500, json: {} };
     try {
       if (_id == "" || _id == undefined) {
-        const lista = JSON.parse(JSON.stringify(await Dado.find({ empresa: pEmpresa })))
+        var lista = JSON.parse(JSON.stringify(await Dado.find({ empresa: pEmpresa })))
+        var listaReceitaTemp = []
+        for(var itemReceita of lista){
+          var listaInsumoTemp = []
+          for(var itemInsumo of itemReceita.insumo){
+            var itemInsumoSalvo = await DadoInsumo.findById(itemInsumo._id)
+            itemInsumo.descricao = itemInsumoSalvo.descricao
+            itemInsumo.unidadeMedida = itemInsumoSalvo.unidadeMedida
+            listaInsumoTemp.push(itemInsumo)
+          }
+          itemReceita.insumo = listaInsumoTemp
+          listaReceitaTemp.push(itemReceita)
+        }
+        lista = listaReceitaTemp
         jsonRetorno.status = 200
         jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", lista: lista }
       } else {
