@@ -1,6 +1,7 @@
 const Dado = require('../dado/produto');
 const DadoInsumo = require('../dado/insumo');
 const DadoReceita = require('../dado/receita');
+const DadoEstoque = require('../dado/estoque');
 class produto {
   static async get(_id, entidade, pEmpresa, peSubProduto) {
     var jsonRetorno = { status: 500, json: {} };
@@ -38,7 +39,7 @@ class produto {
 
               for (var itemTemp of item.produto) {
                 var itemProduto = JSON.parse(JSON.stringify(await Dado.findById(itemTemp._id)))
-                itemProduto.quantidadeProduto = itemTemp.quantidade
+                itemProduto.porcentagemProduto = itemTemp.porcentagem
                 lista.push(itemProduto)
               }
               jsonRetorno.status = 200
@@ -52,20 +53,20 @@ class produto {
             item.valorCalculado = 0
             if (item.eSubProduto) {
               for (var itemTemp of item.insumo) {
-                var itemInsumo = JSON.parse(JSON.stringify(await DadoInsumo.findById(itemTemp._id)))
-                if (itemInsumo.valor != "" && itemInsumo.valor != undefined) {
-                  item.valorCalculado = item.valorCalculado + itemInsumo.valor * itemTemp.quantidade
+                var itemEstoque = await DadoEstoque.findOne({ empresa: item.empresa, tipo: "insumo", codigo: itemTemp._id })
+                if (itemEstoque.valor != "" && itemEstoque.valor != undefined) {
+                  item.valorCalculado = item.valorCalculado + itemEstoque.valor * itemTemp.quantidade
 
                 }
               }
-              for (var itemTemp of item.produto) {
-                var itemProduto = JSON.parse(JSON.stringify(await Dado.findById(itemTemp._id)))
+              for (var itemTemp1 of item.produto) {
+                var itemProduto = JSON.parse(JSON.stringify(await Dado.findById(itemTemp1._id)))
                 if (itemProduto.receita != "" && itemProduto.receita != undefined) {
                   var itemReceita = JSON.parse(JSON.stringify(await DadoReceita.findById(itemProduto.receita)))
-                  for (var itemTemp of itemReceita.insumo) {
-                    var itemInsumo = JSON.parse(JSON.stringify(await DadoInsumo.findById(itemTemp._id)))
-                    if (itemInsumo.valor != "" && itemInsumo.valor != undefined) {
-                      item.valorCalculado = item.valorCalculado + itemInsumo.valor * itemTemp.quantidade
+                  for (var itemTemp2 of itemReceita.insumo) {
+                    var itemEstoque = await DadoEstoque.findOne({ empresa: item.empresa, tipo: "insumo", codigo: itemTemp2._id })
+                    if (itemEstoque.valor != "" && itemEstoque.valor != undefined) {
+                      item.valorCalculado = item.valorCalculado + (((itemEstoque.valor * itemTemp2.quantidade)*itemTemp1.porcentagem)/100)
                     }
                   }
                 }
@@ -74,9 +75,9 @@ class produto {
               if (item.receita != "" && item.receita != undefined) {
                 var itemReceita = JSON.parse(JSON.stringify(await DadoReceita.findById(item.receita)))
                 for (var itemTemp of itemReceita.insumo) {
-                  var itemInsumo = JSON.parse(JSON.stringify(await DadoInsumo.findById(itemTemp._id)))
-                  if (itemInsumo.valor != "" && itemInsumo.valor != undefined) {
-                    item.valorCalculado = item.valorCalculado + itemInsumo.valor * itemTemp.quantidade
+                  var itemEstoque = await DadoEstoque.findOne({ empresa: item.empresa, tipo: "insumo", codigo: itemTemp._id })
+                  if (itemEstoque.valor != "" && itemEstoque.valor != undefined) {
+                    item.valorCalculado = item.valorCalculado + itemEstoque.valor * itemTemp.quantidade
                   }
                 }
               }
