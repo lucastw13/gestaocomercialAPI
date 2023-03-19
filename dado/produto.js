@@ -28,7 +28,7 @@ const SchemaProduto = new Schema({
             _id:{
                 type: String,
             },
-            porcentagem:{
+            quantidade:{
                 type:Number,
             },
         }]
