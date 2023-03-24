@@ -18,7 +18,7 @@ class pedido {
         jsonRetorno.status = 200
         jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", lista: lista }
       } else {
-        const item = JSON.parse(JSON.stringify(await Dado.findById(_id)))
+        var item = JSON.parse(JSON.stringify(await Dado.findById(_id)))
         if (item == "" || item == undefined) {
           jsonRetorno.status = 200
           jsonRetorno.json = { status: false, descricao: "pedido não encontrado!" }
@@ -40,6 +40,8 @@ class pedido {
             }
 
           } else {
+            var itemCliente = JSON.parse(JSON.stringify(await DadoCliente.findById(item.cliente)))
+            item.nomeCliente = itemCliente.nome
             jsonRetorno.status = 200
             jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", item: item }
           }
