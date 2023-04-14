@@ -40,16 +40,12 @@ class notafiscal {
                 var itemInsumoDePara = await DadoInsumoDePara.findOne({fornecedorCnpj: response.data.nfeProc.NFe.infNFe.emit.CNPJ, codigo: item.prod.cProd })
                 if (itemInsumoDePara != "" && itemInsumoDePara != undefined) {
                   var itemInsumo = await DadoInsumo.findById(itemInsumoDePara.insumo)
-                  var quantidade = item.prod.qTrib
-                  if ((item.prod.uTrib=="KG")&&(itemInsumo.unidadeMedida=="G")){
-                    quantidade = quantidade * 1000
-                  }
                   lista.push(
                     {
                       insumo: itemInsumoDePara.insumo,
                       insumoDescricao: itemInsumo.descricao,
                       insumoUnidadeMedida: itemInsumo.unidadeMedida,
-                      quantidade:quantidade ,
+                      quantidade: item.prod.qTrib,
                       valor: item.prod.vProd,
                     }
                   )
