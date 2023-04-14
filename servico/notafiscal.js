@@ -14,7 +14,6 @@ class notafiscal {
         }
       }
       jsonRetorno.status = 200
-      //var url = "https://gateway.apiserpro.serpro.gov.br/consulta-nfe-df-trial/api/v1/nfe/" + chave
       var url = process.env.URL_CONSULTA_NOTA + chave
       await axios.get(url, config)
         .then(async response => {
