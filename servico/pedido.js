@@ -75,6 +75,17 @@ class pedido {
       await DadoParametro.findByIdAndUpdate(itemParametro._id, itemParametro);
       item = JSON.parse(JSON.stringify(item))
       item.numero = itemParametro.valor
+      item.valor = 0
+      var listaProdutoTemp = []
+      for(var itemProduto of item.produto){
+        itemProduto = JSON.parse(JSON.stringify(itemProduto))
+        var dadoItemProduto = JSON.parse(JSON.stringify(await DadoProduto.findById(itemProduto._id)))
+        itemProduto.valor = dadoItemProduto.valorVenda*itemProduto.quantidade
+        listaProdutoTemp.push(itemProduto)
+
+        item.valor = item.valor + itemProduto.valor
+      }
+      item.produto = listaProdutoTemp
       var itemCriado = await Dado.create(item);
       jsonRetorno.status = 201
       jsonRetorno.json = { status: true, descricao: "pedido criado com sucesso!", item: itemCriado }

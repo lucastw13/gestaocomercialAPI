@@ -15,6 +15,7 @@ const NotaFiscal = require('./servico/notafiscal');
 const Parametro = require('./servico/parametro');
 const Empresa = require('./servico/empresa');
 const cors = require('cors');
+const Ranking = require('./servico/ranking');
 require('dotenv').config()
 
 app.use(cors({
@@ -93,6 +94,8 @@ app.get('/:entidade/:codigo/:entidade2/:empresa', async (req, res) => {
         case "pedido" : jsonRetorno = await Pedido.get("","",req.params.empresa); break;
         case "cliente" : jsonRetorno = await Cliente.get("","",req.params.empresa); break;
         case "parametro" : jsonRetorno = await Parametro.get("","",req.params.empresa); break;
+        case "ranking" : jsonRetorno = await Ranking.get(req.params.empresa); break;
+
     }
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })

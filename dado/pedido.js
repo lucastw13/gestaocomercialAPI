@@ -3,11 +3,14 @@ const Schema = mongoose.Schema;
 const SchemaPedido = new Schema({
     produto: {
         type: [{
-            _id:{
-                type:String
+            _id: {
+                type: String
             },
-            quantidade:{
-                type:Number,
+            quantidade: {
+                type: Number,
+            },
+            valor: {
+                type: Number,
             }
         }]
     },
@@ -37,6 +40,9 @@ const SchemaPedido = new Schema({
     },
     empresa: {
         type: String
+    },
+    valor: {
+        type: Number
     },
 });
 
