@@ -5,7 +5,14 @@ const estoque = mongoose.model('estoque',{
     tipo:String,
     codigo:String,
     quantidade:Number,
-    valor:Number
+    valor:Number,
+    quantidadeMinima:Number,
+    usuario:String,
+    data:String,
+    hora:String,
+    usuarioAlteracao:String,
+    dataAlteracao:String,
+    horaAlteracao:String,
 });
 
 module.exports = estoque

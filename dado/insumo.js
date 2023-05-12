@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 const insumo = mongoose.model('insumo',{
     descricao:String,
     unidadeMedida:String,
-    quantidadeMinima:Number,
     usuario:String,
     data:String,
     hora:String,
