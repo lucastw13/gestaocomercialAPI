@@ -12,6 +12,7 @@ const insumodepara = mongoose.model('insumodepara',{
     usuarioAlteracao:String,
     dataAlteracao:String,
     horaAlteracao:String,
+    empresa:String,
 });
 
 module.exports = insumodepara
