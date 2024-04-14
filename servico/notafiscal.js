@@ -20,7 +20,7 @@ class notafiscal {
           if (response.data != null) {
             var retorno = {}
             var lista = []
-
+            var codigo = 0
             for (var item of response.data.nfeProc.NFe.infNFe.det) {
               if ((entidade2 == "" || entidade2 == undefined) && (empresa == "" || empresa == undefined)) {
                 
@@ -37,6 +37,7 @@ class notafiscal {
 
                 )
               } else if (entidade2 == "insumo") {
+                codigo++
                 var itemInsumoDePara = await DadoInsumoDePara.findOne({fornecedorCnpj: response.data.nfeProc.NFe.infNFe.emit.CNPJ, codigo: item.prod.cProd })
                 if (itemInsumoDePara != "" && itemInsumoDePara != undefined) {
                   var itemInsumo = await DadoInsumo.findById(itemInsumoDePara.insumo)
@@ -46,6 +47,7 @@ class notafiscal {
                   }
                   lista.push(
                     {
+                      codigo: codigo,
                       insumo: itemInsumoDePara.insumo,
                       insumoDescricao: itemInsumo.descricao,
                       insumoUnidadeMedida: itemInsumo.unidadeMedida,
