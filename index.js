@@ -16,7 +16,11 @@ const Parametro = require('./servico/parametro');
 const Empresa = require('./servico/empresa');
 const cors = require('cors');
 const Ranking = require('./servico/ranking');
+const DocumentoCompra = require('./servico/documentocompra');
 require('dotenv').config()
+
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 app.use(cors({
     origin: '*',
@@ -42,6 +46,7 @@ app.put('/:entidade', async (req, res) => {
         case "pedido" : jsonRetorno = await Pedido.put(req.body); break;
         case "cliente" : jsonRetorno = await Cliente.put(req.body); break;
         case "parametro" : jsonRetorno = await Parametro.put(req.body); break;
+        case "documentocompra" : jsonRetorno = await DocumentoCompra.put(req.body); break;
     }
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })
@@ -68,6 +73,7 @@ app.get('/:entidade/:codigo', async (req, res) => {
         case "cliente" : jsonRetorno = await Cliente.get(req.params.codigo); break;
         case "notafiscal" : jsonRetorno = await NotaFiscal.get(req.params.codigo); break;
         case "parametro" : jsonRetorno = await Parametro.get(req.params.codigo); break;
+        case "documentocompra" : jsonRetorno = await DocumentoCompra.get(req.params.codigo); break;
     }
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })
@@ -95,6 +101,7 @@ app.get('/:entidade/:codigo/:entidade2/:empresa', async (req, res) => {
         case "cliente" : jsonRetorno = await Cliente.get("","",req.params.empresa); break;
         case "parametro" : jsonRetorno = await Parametro.get("","",req.params.empresa); break;
         case "ranking" : jsonRetorno = await Ranking.get(req.params.empresa); break;
+        case "documentocompra" : jsonRetorno = await DocumentoCompra.get(req.params.codigo,"",req.params.empresa); break;
 
     }
     res.status(jsonRetorno.status).json(jsonRetorno.json)
@@ -129,6 +136,7 @@ app.delete('/:entidade/:codigo', async (req, res) => {
         case "pedido" : jsonRetorno = await Pedido.delete(req.params.codigo); break;
         case "cliente" : jsonRetorno = await Pedido.delete(req.params.codigo); break;
         case "parametro" : jsonRetorno = await Parametro.delete(req.params.codigo); break;
+        case "documentocompra" : jsonRetorno = await DocumentoCompra.delete(req.params.codigo); break;
     }
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })
@@ -146,6 +154,7 @@ app.post('/:entidade', async (req, res) => {
         case "pedido" : jsonRetorno = await Pedido.post(req.body); break;
         case "cliente" : jsonRetorno = await Cliente.post(req.body); break;
         case "parametro" : jsonRetorno = await Parametro.post(req.body); break;
+        case "documentocompra" : jsonRetorno = await DocumentoCompra.post(req.body); break;
     }
     res.status(jsonRetorno.status).json(jsonRetorno.json)
 })
