@@ -35,7 +35,7 @@ class documentocompra {
     return jsonRetorno
   }
   static async post(body) {
-          return { status: false, descricao:process.env.TOKEN_GEMINI+" - "+process.env.URL_GEMINI }
+          return  { status: 500, json:{ status: false, descricao:process.env.TOKEN_GEMINI+" - "+process.env.URL_GEMINI }};
           /*
     try {
 
