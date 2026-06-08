@@ -39,7 +39,7 @@ class documentocompra {
     try {
 
       var jsonRetorno = { status: 500, json: {} };
-     /* var item = body
+      var item = body
       var caminhoPrompt = path.join(__dirname, '..', 'prompt', 'documentocompra');
       var prompt = await fs.readFile(caminhoPrompt, 'utf8');
       var prompt = JSON.stringify(prompt+JSON.stringify(await DadoInsumo.find()))
@@ -72,7 +72,7 @@ class documentocompra {
       item.insumo = resonseJson.insumo
       var itemCriado = await Dado.create(item);
       jsonRetorno.status = 201
-      jsonRetorno.json = { status: true, descricao: "documento compra criado com sucesso!", item: itemCriado }*/
+      jsonRetorno.json = { status: true, descricao: "documento compra criado com sucesso!", item: itemCriado }
     } catch (error) {
       jsonRetorno.status = 200
       jsonRetorno.json = { status: false, descricao: error.toString() }
