@@ -36,6 +36,7 @@ class documentocompra {
   }
   static async post(body) {
     try {
+      return { status: false, descricao:process.env.TOKEN_GEMINI+" - "+process.env.URL_GEMINI }
       var jsonRetorno = { status: 500, json: {} };
       var item = body
       var caminhoPrompt = path.join(__dirname, '..', 'prompt', 'documentocompra');
