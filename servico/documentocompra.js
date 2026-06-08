@@ -35,8 +35,10 @@ class documentocompra {
     return jsonRetorno
   }
   static async post(body) {
+          return { status: false, descricao:process.env.TOKEN_GEMINI+" - "+process.env.URL_GEMINI }
+          /*
     try {
-      return { status: false, descricao:process.env.TOKEN_GEMINI+" - "+process.env.URL_GEMINI }
+
       var jsonRetorno = { status: 500, json: {} };
       var item = body
       var caminhoPrompt = path.join(__dirname, '..', 'prompt', 'documentocompra');
@@ -93,7 +95,7 @@ class documentocompra {
       jsonRetorno.status = 200
       jsonRetorno.json = { status: false, descricao: error.toString() }
     }
-    return jsonRetorno
+    return jsonRetorno*/
   }
 
 }
