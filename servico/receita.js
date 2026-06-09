@@ -21,7 +21,7 @@ class receita {
         }
         lista = listaReceitaTemp
         jsonRetorno.status = 200
-        jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso!", lista: lista }
+        jsonRetorno.json = { status: true, descricao: "busca realizada com sucesso! ", lista: lista }
       } else {
         const item = await Dado.findById(_id)
         if (item == "" || item == undefined) {
