@@ -23,7 +23,7 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 app.use(cors({
-    origin: '*',
+    origin: process.env.URL_APP,
     methods: 'GET,POST,PUT,PATCH,DELETE'
 }));
 app.use(
